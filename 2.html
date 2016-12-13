@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <title>RSS - A</title>
+  <style media="screen">
+    body{
+      width:100%;
+      height: 100%;
+      margin:0;
+      padding:0;
+      background: red; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(brown, cyan); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(brown, cyan); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(brown, cyan); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(brown, cyan); /* Standard syntax */
+    }
+  </style>
+  <script>
+    // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    // })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    //
+    // ga('create', 'UA-45628301-1', 'auto');
+    // ga('send', 'pageview');
+
+  </script>
+</head>
+<body>
+  <div id="container">
+    <video id="monitor" autoplay width="160" height="120" style="display: none; float:left;"></video>
+<canvas id="videoImage" width="160" height="120" style="display: none; float:left;"></canvas>
+  </div>
+  <script>
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+window.URL = window.URL || window.webkitURL;
+
+var camvideo = document.getElementById('monitor');
+
+	if (!navigator.getUserMedia)
+	{
+		document.getElementById('errorMessage').innerHTML =
+			'Sorry. <code>navigator.getUserMedia()</code> is not available.';
+	} else {
+		navigator.getUserMedia({video: true}, gotStream, noStream);
+	}
+
+function gotStream(stream)
+{
+	if (window.URL)
+	{   camvideo.src = window.URL.createObjectURL(stream);   }
+	else // Opera
+	{   camvideo.src = stream;   }
+
+	camvideo.onerror = function(e)
+	{   stream.stop();   };
+
+	stream.onended = noStream;
+}
+
+function noStream(e)
+{
+	var msg = 'No camera available.';
+	if (e.code == 1)
+	{   msg = 'User denied access to use camera.';   }
+	document.getElementById('errorMessage').textContent = msg;
+}
+</script>
+  <script src="ccapture.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r82/three.js"></script>
+  <script src="OBJLoader.js"></script>
+  <script src="bundle2.js"></script>
+</body>
+</html>
